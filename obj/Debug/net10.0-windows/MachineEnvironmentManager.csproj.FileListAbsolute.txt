@@ -29,3 +29,5 @@ C:\Users\hsirikonda\source\repos\InstallationTool\MachineEnvironmentManager\obj\
 C:\Users\hsirikonda\source\repos\InstallationTool\MachineEnvironmentManager\obj\Debug\net10.0-windows\MachineEnvironmentManager.genruntimeconfig.cache
 C:\Users\hsirikonda\source\repos\InstallationTool\MachineEnvironmentManager\obj\Debug\net10.0-windows\ref\MachineEnvironmentManager.dll
 C:\Users\hsirikonda\source\repos\InstallationTool\MachineEnvironmentManager\obj\Debug\net10.0-windows\MachineE.194C9688.Up2Date
+C:\Users\hsirikonda\source\repos\InstallationTool\MachineEnvironmentManager\obj\Debug\net10.0-windows\MachineEnvironmentManager.csproj.AssemblyReference.cache
+C:\Users\hsirikonda\source\repos\InstallationTool\MachineEnvironmentManager\bin\Debug\net10.0-windows\log4net.dll

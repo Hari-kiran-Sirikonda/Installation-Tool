@@ -1,0 +1,92 @@
+================================================================================
+              MACHINE ENVIRONMENT MANAGER - EXECUTION FLOWCHART
+================================================================================
+
+[START: Program.Main()]
+       │
+       ▼
+ApplicationConfiguration.Initialize()
+       │
+       ▼
+SessionLogger.Initialize()
+       │
+       ▼
+Application.Run(new EnvironmentManagerForm())
+       │
+       ├──► [CONSTRUCTOR: EnvironmentManagerForm()]
+       │           │
+       │           ├──► InitializeUI()
+       │           │       ├── Creates Form, Labels, TextBoxes (txtName, txtValue, txtLog)
+       │           │       ├── Creates Buttons (Add, Update, Delete, Refresh)
+       │           │       ├── Creates DataGridView (Columns: Name, Value)
+       │           │       └── Wires Event Handlers (CellClick, Add, Update, Delete, Refresh)
+       │           │
+       │           ├──► Subscribe to SessionLogger.MessageLogged ──► (Appends timestamped logs to txtLog)
+       │           │
+       │           └──► LoadVariables(logAction: false)
+       │                   ├── Clear grid rows
+       │                   ├── Fetch Machine Environment Variables
+       │                   ├── Loop through each variable:
+       │                   │      └── Does key start with "EA_"?
+       │                   │             ├── [YES] ──► Add to grid (Note: Currently logs inside loop!)
+       │                   │             └── [NO]  ──► Skip
+       │                   └── Sort grid ascending by "Name"
+       │
+       ▼
+[UI EVENT LOOP: Waiting for User Interaction]
+       │
+       ├──► 1. USER CLICKS A ROW IN GRID [Grid_CellClick]
+       │         ├── Is RowIndex >= 0?
+       │         │      ├── [YES] ──► Populate txtName & fetch value from Machine env into txtValue
+       │         │      │           └── Log: "Selected variable '{name}'."
+       │         │      └── [NO]  ──► Do nothing
+       │         |
+       ├──► 2. USER CLICKS "ADD" [BtnAdd_Click]
+       │         ├── Validate txtName:
+       │         │      ├── Empty/Whitespace? ──► Log & Return
+       │         │      └── Contains '='?     ──► Log & Return
+       │         ├── Check if variable already exists in Machine env:
+       │         │      ├── [EXISTS]     ──► Log "already exists" & Return
+       │         │      └── [NOT EXISTS] ──► SetEnvironmentVariable(name, value, Machine)
+       │         │                              ├── Log: "Variable '{name}' added successfully."
+       │         │                              ├── ClearFields()
+       │         │                              └── LoadVariables(true)
+       │         └── (On Exception ──► ShowError() ──► SessionLogger.Error())
+       │
+       ├──► 3. USER CLICKS "UPDATE" [BtnUpdate_Click]
+       │         ├── Validate txtName: Empty/Whitespace? ──► Log & Return
+       │         ├── Check if variable exists in Machine env:
+       │         │      └── [NOT EXISTS] ──► Log "does not exist" & Return
+       │         ├── IsProtectedVariable(name)? (Path, SystemRoot, windir, ComSpec, PATHEXT, OS)
+       │         │      ├── [YES] ──► Log "is protected" & Return
+       │         │      └── [NO]  ──► SetEnvironmentVariable(name, value, Machine)
+       │         │                     ├── Log: "Variable '{name}' updated successfully."
+       │         │                     ├── ClearFields()
+       │         │                     └── LoadVariables(true)
+       │         └── (On Exception ──► ShowError() ──► SessionLogger.Error())
+       │
+       ├──► 4. USER CLICKS "DELETE" [BtnDelete_Click]
+       │         ├── Validate txtName: Empty/Whitespace? ──► Log & Return
+       │         ├── IsProtectedVariable(name)?
+       │         │      └── [YES] ──► Log "is protected" & Return
+       │         ├── Show Confirmation MessageBox ("Are you sure...?")
+       │         │      ├── [NO]  ──► Log "Delete canceled" & Return
+       │         │      └── [YES] ──► Check if variable exists:
+       │         │                     ├── [NOT EXISTS] ──► Log "does not exist" & Return
+       │         │                     └── [EXISTS]     ──► SetEnvironmentVariable(name, null, Machine)
+       │         │                                           ├── Log: "Variable '{name}' deleted."
+       │         │                                           ├── ClearFields()
+       │         │                                           └── LoadVariables(true)
+       │         └── (On Exception ──► ShowError() ──► SessionLogger.Error())
+       │
+       └──► 5. USER CLICKS "REFRESH" [btnRefresh.Click]
+                 └── LoadVariables(logAction: true)
+       │
+       ▼
+[USER CLOSES APPLICATION]
+       │
+       ▼
+finally { SessionLogger.SaveSession(); }
+       │
+       ▼
+[END]

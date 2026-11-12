@@ -1,11 +1,47 @@
 {
   "version": 4,
   "targets": {
-    "net10.0-windows": {}
+    "net10.0-windows": {
+      "log4net/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/log4net.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/log4net.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "log4net/3.0.0": {
+      "sha512": "qMdZQuo3u7aurPbcyO55xe6GykvhVOxIFqzdA1uMPQb4IldIMez8z4jA71PBSuZqTljzYxtjIGcIhiKjt5F1cw==",
+      "type": "package",
+      "path": "log4net/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net462/log4net.dll",
+        "lib/net462/log4net.pdb",
+        "lib/net462/log4net.xml",
+        "lib/netstandard2.0/log4net.dll",
+        "lib/netstandard2.0/log4net.pdb",
+        "lib/netstandard2.0/log4net.xml",
+        "log4net.3.0.0.nupkg.sha512",
+        "log4net.nuspec",
+        "package-icon.png"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net10.0-windows": []
+    "net10.0-windows": [
+      "log4net >= 2.0.18"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\hsirikonda\\.nuget\\packages\\": {},
@@ -14,11 +50,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hsirikonda\\OneDrive - Voxai Solutions, Inc\\Desktop\\Installation Tool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
+      "projectUniqueName": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
       "projectName": "MachineEnvironmentManager",
-      "projectPath": "C:\\Users\\hsirikonda\\OneDrive - Voxai Solutions, Inc\\Desktop\\Installation Tool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
+      "projectPath": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
       "packagesPath": "C:\\Users\\hsirikonda\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hsirikonda\\OneDrive - Voxai Solutions, Inc\\Desktop\\Installation Tool\\MachineEnvironmentManager\\obj\\",
+      "outputPath": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -58,6 +94,12 @@
       "net10.0-windows": {
         "framework": "net10.0-windows7.0",
         "targetAlias": "net10.0-windows",
+        "dependencies": {
+          "log4net": {
+            "target": "Package",
+            "version": "[2.0.18, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -370,5 +412,27 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "MachineEnvironmentManager depends on log4net (>= 2.0.18) but log4net 2.0.18 was not found. log4net 3.0.0 was resolved instead.",
+      "libraryId": "log4net",
+      "targetGraphs": [
+        "net10.0-windows"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'log4net' 3.0.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-4f7c-pmjv-c25w",
+      "libraryId": "log4net",
+      "targetGraphs": [
+        "net10.0-windows"
+      ]
+    }
+  ]
 }

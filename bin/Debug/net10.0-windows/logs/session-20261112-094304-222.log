@@ -1,0 +1,33 @@
+﻿2026-11-12 09:31:44,565 INFO  Variable 'EA_DB_Password' added successfully.
+2026-11-12 09:31:44,614 INFO  Refreshing machine environment variables.
+2026-11-12 09:31:44,616 INFO  Loaded 1 EA_ environment variable(s).
+2026-11-12 09:31:44,618 INFO  Loaded 2 EA_ environment variable(s).
+2026-11-12 09:33:03,982 INFO  Variable 'EA_DB_SERVER_ADDRESS' added successfully.
+2026-11-12 09:33:03,987 INFO  Refreshing machine environment variables.
+2026-11-12 09:33:03,992 INFO  Loaded 1 EA_ environment variable(s).
+2026-11-12 09:33:03,995 INFO  Loaded 2 EA_ environment variable(s).
+2026-11-12 09:33:03,997 INFO  Loaded 3 EA_ environment variable(s).
+2026-11-12 09:33:41,973 INFO  Selected variable 'EA_DB_Password'.
+2026-11-12 09:33:48,270 INFO  Variable 'EA_DB_Password' updated successfully.
+2026-11-12 09:33:48,274 INFO  Refreshing machine environment variables.
+2026-11-12 09:33:48,279 INFO  Loaded 1 EA_ environment variable(s).
+2026-11-12 09:33:48,281 INFO  Loaded 2 EA_ environment variable(s).
+2026-11-12 09:33:48,284 INFO  Loaded 3 EA_ environment variable(s).
+2026-11-12 09:33:52,293 INFO  Selected variable 'EA_DB_Password'.
+2026-11-12 09:33:58,321 INFO  Variable 'EA_DB_Password' updated successfully.
+2026-11-12 09:33:58,324 INFO  Refreshing machine environment variables.
+2026-11-12 09:33:58,328 INFO  Loaded 1 EA_ environment variable(s).
+2026-11-12 09:33:58,330 INFO  Loaded 2 EA_ environment variable(s).
+2026-11-12 09:33:58,333 INFO  Loaded 3 EA_ environment variable(s).
+2026-11-12 09:35:18,502 INFO  Refreshing machine environment variables.
+2026-11-12 09:35:18,507 INFO  Loaded 1 EA_ environment variable(s).
+2026-11-12 09:35:18,509 INFO  Loaded 2 EA_ environment variable(s).
+2026-11-12 09:35:18,511 INFO  Loaded 3 EA_ environment variable(s).
+2026-11-12 09:35:19,348 INFO  Refreshing machine environment variables.
+2026-11-12 09:35:19,351 INFO  Loaded 1 EA_ environment variable(s).
+2026-11-12 09:35:19,352 INFO  Loaded 2 EA_ environment variable(s).
+2026-11-12 09:35:19,354 INFO  Loaded 3 EA_ environment variable(s).
+2026-11-12 09:35:19,949 INFO  Refreshing machine environment variables.
+2026-11-12 09:35:19,953 INFO  Loaded 1 EA_ environment variable(s).
+2026-11-12 09:35:19,955 INFO  Loaded 2 EA_ environment variable(s).
+2026-11-12 09:35:19,956 INFO  Loaded 3 EA_ environment variable(s).

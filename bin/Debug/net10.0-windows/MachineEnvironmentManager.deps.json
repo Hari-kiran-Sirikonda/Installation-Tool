@@ -7,8 +7,19 @@
   "targets": {
     ".NETCoreApp,Version=v10.0": {
       "MachineEnvironmentManager/1.0.0": {
+        "dependencies": {
+          "log4net": "3.0.0"
+        },
         "runtime": {
           "MachineEnvironmentManager.dll": {}
+        }
+      },
+      "log4net/3.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/log4net.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
         }
       }
     }
@@ -18,6 +29,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "log4net/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qMdZQuo3u7aurPbcyO55xe6GykvhVOxIFqzdA1uMPQb4IldIMez8z4jA71PBSuZqTljzYxtjIGcIhiKjt5F1cw==",
+      "path": "log4net/3.0.0",
+      "hashPath": "log4net.3.0.0.nupkg.sha512"
     }
   }
 }

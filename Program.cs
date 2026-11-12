@@ -12,7 +12,16 @@ namespace MachineEnvironmentManager
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new EnvironmentManagerForm());
+            SessionLogger.Initialize();
+
+            try
+            {
+                Application.Run(new EnvironmentManagerForm());
+            }
+            finally
+            {
+                SessionLogger.SaveSession();
+            }
         }
     }
 
@@ -20,6 +29,7 @@ namespace MachineEnvironmentManager
     {
         private TextBox txtName;
         private TextBox txtValue;
+        private TextBox txtLog;
         private DataGridView grid;
         private Button btnAdd, btnUpdate, btnDelete, btnRefresh;
 
@@ -36,81 +46,84 @@ namespace MachineEnvironmentManager
         public EnvironmentManagerForm()
         {
             InitializeUI();
-            LoadVariables();
+            SessionLogger.MessageLogged += SessionLogger_MessageLogged;
+            LoadVariables(false);
         }
 
         private void InitializeUI()
         {
             Text = "Machine Environment Variable Manager";
-            Size = new Size(900, 600);
+            ClientSize = new Size(900, 740);
             StartPosition = FormStartPosition.CenterScreen;
 
             Label heading = new Label
             {
                 Text = "Machine Environment Variables",
                 Font = new Font("Segoe UI", 18, FontStyle.Bold),
-                Location = new Point(25, 20),
-                AutoSize = true
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft
             };
 
             Label lblName = new Label
             {
                 Text = "Variable Name",
-                Location = new Point(30, 85),
-                AutoSize = true
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft
             };
 
             txtName = new TextBox
             {
-                Location = new Point(30, 110),
-                Width = 350
+                Dock = DockStyle.Fill
             };
 
             Label lblValue = new Label
             {
                 Text = "Variable Value",
-                Location = new Point(420, 85),
-                AutoSize = true
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft
             };
 
             txtValue = new TextBox
             {
-                Location = new Point(420, 110),
-                Width = 430
+                Dock = DockStyle.Fill
             };
 
             btnAdd = new Button
             {
                 Text = "Add",
-                Location = new Point(30, 155),
-                Size = new Size(100, 35)
+                Size = new Size(100, 35),
+                Margin = new Padding(0, 5, 15, 5)
             };
+            btnAdd.Click += BtnAdd_Click;
+
 
             btnUpdate = new Button
             {
                 Text = "Update",
-                Location = new Point(145, 155),
-                Size = new Size(100, 35)
+                Size = new Size(100, 35),
+                Margin = new Padding(0, 5, 15, 5)
             };
+            btnUpdate.Click += BtnUpdate_Click;
 
             btnDelete = new Button
             {
                 Text = "Delete",
-                Location = new Point(260, 155),
-                Size = new Size(100, 35)
+                Size = new Size(100, 35),
+                Margin = new Padding(0, 5, 15, 5)
             };
+            btnDelete.Click += BtnDelete_Click;
 
             btnRefresh = new Button
             {
                 Text = "Refresh",
-                Location = new Point(375, 155),
-                Size = new Size(100, 35)
+                Size = new Size(100, 35),
+                Margin = new Padding(0, 5, 15, 5)
             };
+            btnRefresh.Click += (s, e) => LoadVariables();
 
             grid = new DataGridView
             {
-                Location = new Point(30, 215),
-                Size = new Size(820, 310),
+                Dock = DockStyle.Fill,
                 ReadOnly = true,
                 AllowUserToAddRows = false,
                 AutoSizeColumnsMode =
@@ -124,20 +137,108 @@ namespace MachineEnvironmentManager
             grid.Columns.Add("Name", "Variable Name");
             grid.Columns.Add("Value", "Variable Value");
 
-            grid.CellClick += Grid_CellClick;
-
-            btnAdd.Click += BtnAdd_Click;
-            btnUpdate.Click += BtnUpdate_Click;
-            btnDelete.Click += BtnDelete_Click;
-            btnRefresh.Click += (s, e) => LoadVariables();
-
-            Controls.AddRange(new Control[]
+            Label lblLog = new Label
             {
-                heading, lblName, txtName,
-                lblValue, txtValue,
-                btnAdd, btnUpdate, btnDelete,
-                btnRefresh, grid
+                Text = "Action Log",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            txtLog = new TextBox
+            {
+                Dock = DockStyle.Fill,
+                Multiline = true,
+                ReadOnly = true,
+                ScrollBars = ScrollBars.Vertical,
+                BackColor = Color.Black,
+                ForeColor = Color.LightGreen,
+                Font = new Font("Consolas", 9F)
+            };
+
+            TableLayoutPanel inputLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 1,
+                Margin = new Padding(0),
+                Padding = new Padding(0, 0, 0, 5)
+            };
+            inputLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            inputLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+
+            TableLayoutPanel nameLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2,
+                Margin = new Padding(0, 0, 15, 0)
+            };
+            nameLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            nameLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            nameLayout.Controls.Add(lblName, 0, 0);
+            nameLayout.Controls.Add(txtName, 0, 1);
+
+            TableLayoutPanel valueLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2,
+                Margin = new Padding(15, 0, 0, 0)
+            };
+            valueLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            valueLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            valueLayout.Controls.Add(lblValue, 0, 0);
+            valueLayout.Controls.Add(txtValue, 0, 1);
+
+            inputLayout.Controls.Add(nameLayout, 0, 0);
+            inputLayout.Controls.Add(valueLayout, 1, 0);
+
+            FlowLayoutPanel buttonLayout = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Margin = new Padding(0),
+                Padding = new Padding(0)
+            };
+            buttonLayout.Controls.AddRange(new Control[]
+            {
+                btnAdd, btnUpdate, btnDelete, btnRefresh
             });
+
+            TableLayoutPanel mainLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 6,
+                Padding = new Padding(25, 15, 25, 25)
+            };
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 55F));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 45F));
+            mainLayout.Controls.Add(heading, 0, 0);
+            mainLayout.Controls.Add(inputLayout, 0, 1);
+            mainLayout.Controls.Add(buttonLayout, 0, 2);
+            mainLayout.Controls.Add(grid, 0, 3);
+            mainLayout.Controls.Add(lblLog, 0, 4);
+            mainLayout.Controls.Add(txtLog, 0, 5);
+
+            grid.CellClick += Grid_CellClick;
+            Controls.Add(mainLayout);
+        }
+
+        private void SessionLogger_MessageLogged(object? sender, string message)
+        {
+            if (txtLog.InvokeRequired)
+            {
+                txtLog.BeginInvoke(() => SessionLogger_MessageLogged(sender, message));
+                return;
+            }
+
+            txtLog.AppendText($"[{DateTime.Now:HH:mm:ss}] {message}{Environment.NewLine}");
         }
 
         // CHECK WHETHER VARIABLE IS PROTECTED
@@ -158,9 +259,13 @@ namespace MachineEnvironmentManager
         }
 
         // READ - LOAD ALL MACHINE ENVIRONMENT VARIABLES
-        private void LoadVariables()
+        private void LoadVariables(bool logAction = true)
         {
             grid.Rows.Clear();
+            if (logAction)
+            {
+                SessionLogger.Info("Refreshing machine environment variables.");
+            }
 
             try
             {
@@ -179,6 +284,10 @@ namespace MachineEnvironmentManager
                             item.Key.ToString(),
                             item.Value?.ToString()
                         );
+                if (logAction)
+                {
+                    SessionLogger.Info($"Loaded {grid.Rows.Count} EA_ environment variable(s).");
+                }
                     }
                     
                 }
@@ -209,6 +318,8 @@ namespace MachineEnvironmentManager
                         name,
                         EnvironmentVariableTarget.Machine
                     ) ?? "";
+
+                SessionLogger.Info($"Selected variable '{name}'.");
             }
         }
 
@@ -220,15 +331,13 @@ namespace MachineEnvironmentManager
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Enter a variable name.");
+                SessionLogger.Info("Add skipped: enter a variable name.");
                 return;
             }
 
             if (name.Contains('='))
             {
-                MessageBox.Show(
-                    "Variable name cannot contain '='."
-                );
+                SessionLogger.Info("Add skipped: variable name cannot contain '='.");
                 return;
             }
 
@@ -242,9 +351,7 @@ namespace MachineEnvironmentManager
 
                 if (existingValue != null)
                 {
-                    MessageBox.Show(
-                        "Variable already exists. Use Update instead."
-                    );
+                    SessionLogger.Info($"Add skipped: variable '{name}' already exists.");
                     return;
                 }
 
@@ -254,9 +361,7 @@ namespace MachineEnvironmentManager
                     EnvironmentVariableTarget.Machine
                 );
 
-                MessageBox.Show(
-                    "Variable added successfully!"
-                );
+                SessionLogger.Info($"Variable '{name}' added successfully.");
 
                 ClearFields();
                 LoadVariables();
@@ -275,7 +380,7 @@ namespace MachineEnvironmentManager
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Select a variable first.");
+                SessionLogger.Info("Update skipped: select a variable first.");
                 return;
             }
 
@@ -289,18 +394,13 @@ namespace MachineEnvironmentManager
 
                 if (existingValue == null)
                 {
-                    MessageBox.Show(
-                        "Variable does not exist."
-                    );
+                    SessionLogger.Info($"Update skipped: variable '{name}' does not exist.");
                     return;
                 }
 
                 if (IsProtectedVariable(name))
                 {
-                    MessageBox.Show(
-                        "This is a protected Windows variable " +
-                        "and cannot be modified through this application."
-                    );
+                    SessionLogger.Info($"Update skipped: variable '{name}' is protected.");
                     return;
                 }
 
@@ -310,9 +410,7 @@ namespace MachineEnvironmentManager
                     EnvironmentVariableTarget.Machine
                 );
 
-                MessageBox.Show(
-                    "Variable updated successfully!"
-                );
+                SessionLogger.Info($"Variable '{name}' updated successfully.");
 
                 ClearFields();
                 LoadVariables();
@@ -330,18 +428,13 @@ namespace MachineEnvironmentManager
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show(
-                    "Select a variable to delete."
-                );
+                SessionLogger.Info("Delete skipped: select a variable first.");
                 return;
             }
 
             if (IsProtectedVariable(name))
             {
-                MessageBox.Show(
-                    "This is a protected Windows variable " +
-                    "and cannot be deleted through this application."
-                );
+                SessionLogger.Info($"Delete skipped: variable '{name}' is protected.");
                 return;
             }
 
@@ -364,9 +457,7 @@ namespace MachineEnvironmentManager
 
                     if (existingValue == null)
                     {
-                        MessageBox.Show(
-                            "Variable does not exist."
-                        );
+                        SessionLogger.Info($"Delete skipped: variable '{name}' does not exist.");
                         return;
                     }
 
@@ -376,9 +467,7 @@ namespace MachineEnvironmentManager
                         EnvironmentVariableTarget.Machine
                     );
 
-                    MessageBox.Show(
-                        "Variable deleted successfully!"
-                    );
+                    SessionLogger.Info($"Variable '{name}' deleted successfully.");
 
                     ClearFields();
                     LoadVariables();
@@ -387,6 +476,10 @@ namespace MachineEnvironmentManager
                 {
                     ShowError(ex);
                 }
+            }
+            else
+            {
+                SessionLogger.Info($"Delete canceled for variable '{name}'.");
             }
         }
 
@@ -400,12 +493,7 @@ namespace MachineEnvironmentManager
         // DISPLAY ERRORS
         private void ShowError(Exception ex)
         {
-            MessageBox.Show(
-                ex.Message,
-                "Operation Failed",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-            );
+            SessionLogger.Error("Operation failed", ex);
         }
     }
 }

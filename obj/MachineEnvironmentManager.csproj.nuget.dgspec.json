@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hsirikonda\\OneDrive - Voxai Solutions, Inc\\Desktop\\Installation Tool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj": {}
+    "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hsirikonda\\OneDrive - Voxai Solutions, Inc\\Desktop\\Installation Tool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj": {
+    "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hsirikonda\\OneDrive - Voxai Solutions, Inc\\Desktop\\Installation Tool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
+        "projectUniqueName": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
         "projectName": "MachineEnvironmentManager",
-        "projectPath": "C:\\Users\\hsirikonda\\OneDrive - Voxai Solutions, Inc\\Desktop\\Installation Tool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
+        "projectPath": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
         "packagesPath": "C:\\Users\\hsirikonda\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hsirikonda\\OneDrive - Voxai Solutions, Inc\\Desktop\\Installation Tool\\MachineEnvironmentManager\\obj\\",
+        "outputPath": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -51,6 +51,12 @@
         "net10.0-windows": {
           "framework": "net10.0-windows7.0",
           "targetAlias": "net10.0-windows",
+          "dependencies": {
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.18, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

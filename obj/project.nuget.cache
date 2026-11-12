@@ -1,8 +1,35 @@
 {
   "version": 2,
-  "dgSpecHash": "uzRUl2NW4Oc=",
+  "dgSpecHash": "qRUM42AugeI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\hsirikonda\\OneDrive - Voxai Solutions, Inc\\Desktop\\Installation Tool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
-  "expectedPackageFiles": [],
-  "logs": []
+  "projectFilePath": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hsirikonda\\.nuget\\packages\\log4net\\3.0.0\\log4net.3.0.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "message": "MachineEnvironmentManager depends on log4net (>= 2.0.18) but log4net 2.0.18 was not found. log4net 3.0.0 was resolved instead.",
+      "projectPath": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
+      "libraryId": "log4net",
+      "targetGraphs": [
+        "net10.0-windows"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "Package 'log4net' 3.0.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-4f7c-pmjv-c25w",
+      "projectPath": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\hsirikonda\\source\\repos\\InstallationTool\\MachineEnvironmentManager\\MachineEnvironmentManager.csproj",
+      "libraryId": "log4net",
+      "targetGraphs": [
+        "net10.0-windows"
+      ]
+    }
+  ]
 }

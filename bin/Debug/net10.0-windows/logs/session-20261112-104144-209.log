@@ -1,0 +1,6 @@
+﻿2026-11-12 10:40:23,494 INFO  Selected variable 'EA_DB_NAME'.
+2026-11-12 10:40:32,945 INFO  Variable 'EA_DB_NAME' updated successfully.
+2026-11-12 10:40:32,949 INFO  Refreshing machine environment variables.
+2026-11-12 10:40:32,951 INFO  Loaded 1 EA_ environment variable(s).
+2026-11-12 10:40:32,952 INFO  Loaded 2 EA_ environment variable(s).
+2026-11-12 10:40:32,954 INFO  Loaded 3 EA_ environment variable(s).
