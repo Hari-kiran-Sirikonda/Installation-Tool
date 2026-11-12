@@ -42,7 +42,7 @@ namespace MachineEnvironmentManager
         private void InitializeUI()
         {
             Text = "Machine Environment Variable Manager";
-            Size = new Size(900, 900);
+            Size = new Size(900, 600);
             StartPosition = FormStartPosition.CenterScreen;
 
             Label heading = new Label
@@ -171,10 +171,16 @@ namespace MachineEnvironmentManager
 
                 foreach (DictionaryEntry item in variables)
                 {
-                    grid.Rows.Add(
-                        item.Key.ToString(),
-                        item.Value?.ToString()
-                    );
+                    string key = item.Key.ToString();
+
+                    if(key.StartsWith("EA_", StringComparison.OrdinalIgnoreCase))
+                    {
+                        grid.Rows.Add(
+                            item.Key.ToString(),
+                            item.Value?.ToString()
+                        );
+                    }
+                    
                 }
 
                 grid.Sort(

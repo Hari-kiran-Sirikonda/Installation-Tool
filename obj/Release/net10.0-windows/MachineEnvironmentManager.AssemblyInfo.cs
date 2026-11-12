@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MachineEnvironmentManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b12beb7a33e9404aec75261d20824ac590cbf20")]
 [assembly: System.Reflection.AssemblyProductAttribute("MachineEnvironmentManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MachineEnvironmentManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
